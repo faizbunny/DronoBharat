@@ -1,6 +1,14 @@
 const hiddenOperationalCost = 30000;
+const calculatorTopbar = document.querySelector(".calculator-topbar");
 const calculatorNav = document.querySelector(".calculator-nav");
 const calculatorNavLinks = [...document.querySelectorAll(".calculator-nav a")];
+const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+
+function closeMobileMenu() {
+  if (!calculatorTopbar || !mobileMenuToggle) return;
+  calculatorTopbar.classList.remove("menu-open");
+  mobileMenuToggle.setAttribute("aria-expanded", "false");
+}
 
 function moveCalculatorNavGlass(link) {
   if (!calculatorNav || !link) return;
@@ -29,6 +37,32 @@ if (calculatorNav) {
     }
   });
 }
+
+if (mobileMenuToggle && calculatorTopbar) {
+  mobileMenuToggle.addEventListener("click", () => {
+    const isOpen = calculatorTopbar.classList.toggle("menu-open");
+    mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+}
+
+calculatorNavLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    closeMobileMenu();
+  });
+});
+
+document.addEventListener("click", event => {
+  if (!calculatorTopbar || !calculatorTopbar.classList.contains("menu-open")) return;
+  if (!calculatorTopbar.contains(event.target)) {
+    closeMobileMenu();
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeMobileMenu();
+  }
+});
 
 const fieldRules = {
   rent: {

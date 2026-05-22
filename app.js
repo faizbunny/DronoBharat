@@ -1,7 +1,10 @@
 const canvas = document.getElementById("skyline");
 const ctx = canvas.getContext("2d");
+const topbar = document.querySelector(".topbar");
 const nav = document.querySelector(".nav");
 const links = [...document.querySelectorAll(".nav a")];
+const mobileCurrentPage = document.querySelector(".mobile-current-page");
+const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
 const sections = [...document.querySelectorAll("[data-view]")];
 const certificateButtons = [...document.querySelectorAll("[data-certificate]")];
 const certificateLightbox = document.getElementById("certificateLightbox");
@@ -16,10 +19,66 @@ let height = 0;
 let dpr = 1;
 let frame = 0;
 let activeNavLink = null;
+let scrollSpyTicking = false;
 
 links.forEach(link => {
   link.dataset.label = link.textContent.trim();
 });
+
+function updateMobileCurrentPage(label) {
+  if (mobileCurrentPage) {
+    mobileCurrentPage.textContent = label || "Home";
+  }
+}
+
+function closeMobileMenu() {
+  if (!topbar || !mobileMenuToggle) return;
+  topbar.classList.remove("menu-open");
+  mobileMenuToggle.setAttribute("aria-expanded", "false");
+}
+
+function getSectionLabel(id) {
+  if (id === "home") return "Home";
+  const link = links.find(item => item.getAttribute("href") === `#${id}`);
+  return link ? link.dataset.label : "Home";
+}
+
+function updateActiveSectionFromScroll() {
+  const marker = window.innerHeight * 0.32;
+  let currentSection = sections[0];
+
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= marker && rect.bottom > marker) {
+      currentSection = section;
+    }
+  });
+
+  if (!currentSection) return;
+  currentSection.classList.add("active");
+  const id = currentSection.getAttribute("id");
+  links.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+  });
+  updateMobileCurrentPage(getSectionLabel(id));
+  activeNavLink = id === "home" ? null : links.find(link => link.getAttribute("href") === `#${id}`) || null;
+
+  if (window.innerWidth > 900 && activeNavLink && !nav.matches(":hover") && !nav.contains(document.activeElement)) {
+    moveNavGlass(activeNavLink, { moving: false });
+  } else if (id === "home" && !nav.matches(":hover") && !nav.contains(document.activeElement)) {
+    nav.style.setProperty("--glass-opacity", "0");
+    currentNavLink = null;
+  }
+}
+
+function requestScrollSpyUpdate() {
+  if (scrollSpyTicking) return;
+  scrollSpyTicking = true;
+  window.requestAnimationFrame(() => {
+    updateActiveSectionFromScroll();
+    scrollSpyTicking = false;
+  });
+}
 
 function resizeCanvas() {
   dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -117,12 +176,14 @@ function setActiveSection(entries) {
       });
       activeNavLink = links.find(link => link.getAttribute("href") === `#${id}`) || activeNavLink;
       if (id === "home") {
+        updateMobileCurrentPage("Home");
         activeNavLink = null;
         if (!nav.matches(":hover") && !nav.contains(document.activeElement)) {
           nav.style.setProperty("--glass-opacity", "0");
           currentNavLink = null;
         }
       } else if (activeNavLink && !nav.matches(":hover") && !nav.contains(document.activeElement)) {
+        updateMobileCurrentPage(activeNavLink.dataset.label);
         moveNavGlass(activeNavLink, { moving: false });
       }
     }
@@ -205,16 +266,42 @@ if (nav) {
   });
 }
 
+if (mobileMenuToggle && topbar) {
+  mobileMenuToggle.addEventListener("click", () => {
+    const isOpen = topbar.classList.toggle("menu-open");
+    mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+}
+
 links.forEach(link => {
   link.addEventListener("click", event => {
     const href = link.getAttribute("href");
+    closeMobileMenu();
     if (!href || !href.startsWith("#")) return;
     const target = document.querySelector(href);
     if (!target) return;
     event.preventDefault();
     target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
     history.pushState(null, "", href);
+    updateMobileCurrentPage(getSectionLabel(href.slice(1)));
   });
+});
+
+window.addEventListener("scroll", requestScrollSpyUpdate, { passive: true });
+window.addEventListener("resize", requestScrollSpyUpdate);
+window.addEventListener("load", updateActiveSectionFromScroll);
+
+document.addEventListener("click", event => {
+  if (!topbar || !topbar.classList.contains("menu-open")) return;
+  if (!topbar.contains(event.target)) {
+    closeMobileMenu();
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeMobileMenu();
+  }
 });
 
 function closeCertificate() {
