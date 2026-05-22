@@ -1250,11 +1250,11 @@ h3 {
     border: 1px solid rgba(255,255,255,0.78);
     border-radius: 8px;
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.58)),
-      linear-gradient(315deg, rgba(49,88,165,0.08), rgba(8,125,0,0.06), rgba(255,140,25,0.07));
-    box-shadow: 0 22px 52px rgba(20,43,84,0.18), inset 0 1px 0 rgba(255,255,255,0.95);
-    backdrop-filter: blur(22px) saturate(1.35);
-    -webkit-backdrop-filter: blur(22px) saturate(1.35);
+      linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,251,255,0.94)),
+      linear-gradient(315deg, rgba(49,88,165,0.08), rgba(8,125,0,0.05), rgba(255,140,25,0.06));
+    box-shadow: 0 22px 52px rgba(20,43,84,0.2), inset 0 1px 0 rgba(255,255,255,0.98);
+    backdrop-filter: blur(34px) saturate(1.55);
+    -webkit-backdrop-filter: blur(34px) saturate(1.55);
     opacity: 0;
     pointer-events: none;
     scrollbar-width: none;
@@ -1282,7 +1282,7 @@ h3 {
     min-height: 42px;
     padding: 0 14px;
     border: 1px solid rgba(49,88,165,0.1);
-    background: rgba(255,255,255,0.38);
+    background: rgba(255,255,255,0.68);
     font-size: 14px;
     white-space: normal;
   }
