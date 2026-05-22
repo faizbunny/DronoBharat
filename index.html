@@ -5,24 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="DronoBharat RPTO development and DGCA compliance consultancy for universities, institutions, and organisations.">
     <title>DronoBharat | RPTO Development & DGCA Compliance</title>
-    <link rel="stylesheet" href="styles.css?v=15">
+    <link rel="stylesheet" href="styles.css?v=31">
   </head>
   <body>
+    <svg class="svg-filters" width="0" height="0" aria-hidden="true" focusable="false">
+      <filter id="navLiquidGlass" x="-35%" y="-45%" width="170%" height="190%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.018 0.09" numOctaves="2" seed="8" result="noise">
+          <animate attributeName="baseFrequency" dur="7s" values="0.018 0.09;0.028 0.055;0.018 0.09" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
     <canvas id="skyline" aria-hidden="true"></canvas>
 
     <header class="topbar" id="top">
       <a class="brand" href="#home" aria-label="DronoBharat home">
         <img src="dronobharat-logo.png" alt="DronoBharat logo">
-        <span>DronoBharat</span>
       </a>
       <nav class="nav" aria-label="Primary navigation">
         <a href="#services">Services</a>
+        <a class="repository-link" href="#repository">RPAS Regulatory Repository</a>
         <a href="#process">Process</a>
         <a href="#training">Training</a>
         <a href="#infrastructure">Infrastructure</a>
         <a href="#team">Team</a>
         <a href="#recognitions">Recognitions</a>
         <a href="#contact">Contact</a>
+        <a class="estimator-link" href="rpto-profitability-calculator.html">RPTO Estimator</a>
       </nav>
     </header>
 
@@ -48,7 +57,7 @@
           </div>
           <div class="status-grid">
             <div>
-              <strong>5+ Years</strong>
+              <strong>8+ Years</strong>
               <span>RPTO sector experience</span>
             </div>
             <div>
@@ -106,6 +115,94 @@
         </div>
       </section>
 
+      <section class="section page-section repository-section" id="repository" data-view>
+        <div class="section-heading centered-heading">
+          <p class="eyebrow">Regulatory Library</p>
+          <h2>RPAS Regulatory Repository.</h2>
+          <p>Centralised access to RPAS regulatory documents, operational procedures, training circulars, and compliance references.</p>
+        </div>
+
+        <div class="repository-stack">
+          <section class="repository-group" aria-labelledby="drone-rules-heading">
+            <h3 id="drone-rules-heading">Drone Rules</h3>
+            <div class="document-grid">
+              <a class="document-card" target="_blank" rel="noopener" href="documents/drone-rule-2021.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Drone_rule_2021</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/certification-scheme-for-unmanned-aircraft-systems.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Certification Scheme for Unmanned Aircraft Systems</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/drone-amendment-rules-2022.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Drone (Amendment) Rules 2022</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/drone-amendment-rules-2023.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Drone (Amendment) Rules, 2023</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/drone-amendment-rules-2024.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Drone Amendment Rules 2024</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/production-linked-incentive-scheme-for-drones-and-drone-components-in-india.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Production Linked Incentive (PLI) scheme for drones and drone components in India</strong>
+                <span>Download PDF</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="repository-group" aria-labelledby="training-circulars-heading">
+            <h3 id="training-circulars-heading">Drone Training Circulars</h3>
+            <div class="document-grid">
+              <a class="document-card" target="_blank" rel="noopener" href="documents/dtc-01-2026-minimum-criteria-for-authorisation-of-rpto.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>DTC_01_2026 MINIMUM CRITERIA FOR AUTHORISATION OF REMOTE PILOT TRAINING ORGANIZATION (RPTO)</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/amended-dtc-01-2023-train-the-trainer-instructor-rating-master-instructor-authorisation-change-management.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Amended_DTC_01 of 2023, Requirements for approval of Train the Trainer, Instructor Rating, Master Instructor Authorisation and change management.</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/dtc-02-of-2022-syllabus.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>DTC-02-of-2022-Syllabus</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/dtc-03-of-2022-tpm.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>DTC-03-of-2022-TPM</strong>
+                <span>Download PDF</span>
+              </a>
+              <a class="document-card" target="_blank" rel="noopener" href="documents/drone-manufacturing-circular-01-of-2025-dated-30-oct-2025.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>Drone Manufacturing Circular 01 of 2025 dated 30 Oct 2025</strong>
+                <span>Download PDF</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="repository-group" aria-labelledby="sop-heading">
+            <h3 id="sop-heading">Standard Operating Procedure</h3>
+            <div class="document-grid compact">
+              <a class="document-card" target="_blank" rel="noopener" href="documents/sop-for-legal-operation-of-drone.pdf">
+                <span class="document-badge">PDF</span>
+                <strong>SOP for legal operation of drone</strong>
+                <span>Download PDF</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </section>
+
       <section class="section split-section" id="process" data-view>
         <div class="glass-panel process-panel">
           <p class="eyebrow">Authorisation Path</p>
@@ -115,7 +212,7 @@
               <span>1</span>
               <div>
                 <h3>Eligibility & Gap Review</h3>
-                <p>Review legal entity readiness, instructor availability, proposed category, infrastructure, and flying-area suitability.</p>
+                <p>Review legal entity readiness, instructor availability, proposed training scope, infrastructure, and flying-area suitability.</p>
               </div>
             </div>
             <div class="step">
@@ -222,7 +319,7 @@
               <p class="role">RPTO Consultant & DGCA Compliance Advisor</p>
               <p>
                 Faiz Alam Khan is a professional RPTO Consultant and DGCA-approved Remote
-                Pilot Instructor for Small and Medium Class Drones, with over 5 years of
+                Pilot Instructor for Small and Medium Class Drones, with over 8 years of
                 experience in the Remote Pilot Training sector and 300+ DGCA-approved RPTO
                 flight hours as a certified instructor.
               </p>
@@ -314,7 +411,7 @@
           <h2>Discuss your RPTO plan with DronoBharat.</h2>
           <p>
             Share your current stage, existing infrastructure, instructor availability, and target
-            approval category. We will help you understand the cleanest route to DGCA readiness.
+            approval scope. We will help you understand the cleanest route to DGCA readiness.
           </p>
           <div class="contact-grid">
             <a class="contact-card" href="tel:+919654807959">
@@ -352,6 +449,6 @@
       <img id="certificatePreview" src="" alt="">
     </div>
 
-    <script src="app.js?v=15"></script>
+    <script src="app.js?v=29"></script>
   </body>
 </html>

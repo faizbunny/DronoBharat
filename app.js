@@ -1,11 +1,13 @@
 const canvas = document.getElementById("skyline");
 const ctx = canvas.getContext("2d");
+const nav = document.querySelector(".nav");
 const links = [...document.querySelectorAll(".nav a")];
 const sections = [...document.querySelectorAll("[data-view]")];
 const certificateButtons = [...document.querySelectorAll("[data-certificate]")];
 const certificateLightbox = document.getElementById("certificateLightbox");
 const certificatePreview = document.getElementById("certificatePreview");
 const lightboxClose = document.querySelector(".lightbox-close");
+let currentNavLink = null;
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const particles = [];
@@ -13,6 +15,11 @@ let width = 0;
 let height = 0;
 let dpr = 1;
 let frame = 0;
+let activeNavLink = null;
+
+links.forEach(link => {
+  link.dataset.label = link.textContent.trim();
+});
 
 function resizeCanvas() {
   dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -108,6 +115,16 @@ function setActiveSection(entries) {
       links.forEach(link => {
         link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
       });
+      activeNavLink = links.find(link => link.getAttribute("href") === `#${id}`) || activeNavLink;
+      if (id === "home") {
+        activeNavLink = null;
+        if (!nav.matches(":hover") && !nav.contains(document.activeElement)) {
+          nav.style.setProperty("--glass-opacity", "0");
+          currentNavLink = null;
+        }
+      } else if (activeNavLink && !nav.matches(":hover") && !nav.contains(document.activeElement)) {
+        moveNavGlass(activeNavLink, { moving: false });
+      }
     }
   });
 }
@@ -119,13 +136,84 @@ const observer = new IntersectionObserver(setActiveSection, {
 
 sections.forEach(section => observer.observe(section));
 
+function moveNavGlass(link, options = {}) {
+  if (!nav || !link) return;
+  const navRect = nav.getBoundingClientRect();
+  const linkRect = link.getBoundingClientRect();
+  const padX = 10;
+  const padY = 4;
+  const nextX = linkRect.left - navRect.left - padX;
+  const previousX = Number.parseFloat(nav.style.getPropertyValue("--glass-x")) || nextX;
+  const isNewTarget = currentNavLink && currentNavLink !== link;
+  const shouldAnimate = options.moving ?? isNewTarget;
+  nav.dataset.travel = shouldAnimate ? (nextX >= previousX ? "right" : "left") : "settled";
+  nav.dataset.moving = shouldAnimate ? "true" : "false";
+  if (shouldAnimate && isNewTarget) {
+    const leavingLink = currentNavLink;
+    leavingLink.classList.add("glass-leaving");
+    window.clearTimeout(leavingLink._glassLeavingTimer);
+    leavingLink._glassLeavingTimer = window.setTimeout(() => {
+      leavingLink.classList.remove("glass-leaving");
+    }, 620);
+  }
+  links.forEach(item => item.classList.toggle("glass-target", item === link));
+  nav.style.setProperty("--glass-x", `${linkRect.left - navRect.left - padX}px`);
+  nav.style.setProperty("--glass-y", `${linkRect.top - navRect.top - padY}px`);
+  nav.style.setProperty("--glass-w", `${linkRect.width + padX * 2}px`);
+  nav.style.setProperty("--glass-h", `${linkRect.height + padY * 2}px`);
+  nav.style.setProperty("--glass-opacity", "1");
+  currentNavLink = link;
+  window.clearTimeout(nav._glassTravelTimer);
+  nav._glassTravelTimer = window.setTimeout(() => {
+    if (nav) {
+      nav.dataset.travel = "settled";
+      nav.dataset.moving = "false";
+    }
+  }, 640);
+}
+
+if (nav) {
+  links.forEach(link => {
+    link.addEventListener("pointerenter", () => moveNavGlass(link));
+    link.addEventListener("focus", () => moveNavGlass(link));
+  });
+
+  nav.addEventListener("pointerleave", () => {
+    if (activeNavLink) {
+      moveNavGlass(activeNavLink, { moving: true });
+    } else {
+      nav.style.setProperty("--glass-opacity", "0");
+    }
+    nav.dataset.moving = "false";
+    nav.dataset.travel = "settled";
+    currentNavLink = activeNavLink;
+    links.forEach(item => item.classList.remove("glass-target", "glass-leaving"));
+  });
+
+  nav.addEventListener("focusout", event => {
+    if (!nav.contains(event.relatedTarget)) {
+      if (activeNavLink) {
+        moveNavGlass(activeNavLink, { moving: true });
+      } else {
+        nav.style.setProperty("--glass-opacity", "0");
+      }
+      nav.dataset.moving = "false";
+      nav.dataset.travel = "settled";
+      currentNavLink = activeNavLink;
+      links.forEach(item => item.classList.remove("glass-target", "glass-leaving"));
+    }
+  });
+}
+
 links.forEach(link => {
   link.addEventListener("click", event => {
-    const target = document.querySelector(link.getAttribute("href"));
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+    const target = document.querySelector(href);
     if (!target) return;
     event.preventDefault();
     target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
-    history.pushState(null, "", link.getAttribute("href"));
+    history.pushState(null, "", href);
   });
 });
 
@@ -161,6 +249,11 @@ window.addEventListener("keydown", event => {
 });
 
 window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize", () => {
+  const hovered = document.querySelector(".nav a:hover, .nav a:focus");
+  if (hovered) moveNavGlass(hovered, { moving: false });
+  else if (activeNavLink) moveNavGlass(activeNavLink, { moving: false });
+});
 resizeCanvas();
 animate();
 

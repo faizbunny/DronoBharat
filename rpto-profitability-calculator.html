@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Approved RPTO Profitability Estimator for estimating monthly revenue, expenses, profit, and loss for Remote Pilot Training Organisations.">
+    <title>Approved RPTO Profitability Estimator | DronoBharat</title>
+    <link rel="stylesheet" href="profitability-calculator.css?v=10">
+  </head>
+  <body>
+    <header class="calculator-topbar">
+      <a class="brand" href="index.html" aria-label="Return to DronoBharat home">
+        <img src="dronobharat-logo.png" alt="DronoBharat logo">
+        <span>DronoBharat</span>
+      </a>
+      <nav class="calculator-nav" aria-label="RPTO Estimator navigation">
+        <a href="index.html">Home</a>
+        <a href="#calculator">RPTO Estimator</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Financial Analysis for Approved RPTOs</p>
+          <h1>Approved RPTO Profitability Estimator</h1>
+          <p class="lead">
+            Estimate whether an approved Remote Pilot Training Organisation can operate
+            profitably based on monthly expenses, training fee, and candidate intake.
+          </p>
+        </div>
+      </section>
+
+      <section class="section-block calculator-section" id="calculator">
+        <div class="section-heading compact-heading">
+          <h2>Estimate monthly RPTO profitability.</h2>
+          <p>Enter monthly operating values.<br>Results appear only after calculation.</p>
+        </div>
+
+        <form class="calculator-card" id="profitabilityForm" novalidate>
+          <div class="form-grid">
+            <div class="field-group" data-field="rent">
+              <label for="rent">Monthly Office &amp; Flying Area Rent*: <span>₹</span></label>
+              <input id="rent" name="rent" inputmode="numeric" autocomplete="off" aria-describedby="rentError" required>
+              <p class="field-error" id="rentError" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group" data-field="utilities">
+              <label for="utilities">Monthly Utilities Bills*: <span>₹</span></label>
+              <input id="utilities" name="utilities" inputmode="numeric" autocomplete="off" aria-describedby="utilitiesError" required>
+              <p class="field-error" id="utilitiesError" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group wide-field" data-field="materials">
+              <label for="materials">Monthly Training Materials &amp; Student Expenses (Forms, Logbooks, Books, Lunch, etc.)*: <span>₹</span></label>
+              <input id="materials" name="materials" inputmode="numeric" autocomplete="off" aria-describedby="materialsError" required>
+              <p class="field-error" id="materialsError" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group" data-field="instructorOne">
+              <label for="instructorOne">Monthly Salary – Instructor 1*: <span>₹</span></label>
+              <input id="instructorOne" name="instructorOne" inputmode="numeric" autocomplete="off" aria-describedby="instructorOneError" required>
+              <p class="field-error" id="instructorOneError" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group" data-field="instructorTwo">
+              <label for="instructorTwo">Monthly Salary – Instructor 2*: <span>₹</span></label>
+              <input id="instructorTwo" name="instructorTwo" inputmode="numeric" autocomplete="off" aria-describedby="instructorTwoError" required>
+              <p class="field-error" id="instructorTwoError" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group" data-field="staff">
+              <label for="staff">Monthly Salary – Accountable Manager &amp; Other Staff*: <span>₹</span></label>
+              <input id="staff" name="staff" inputmode="numeric" autocomplete="off" aria-describedby="staffError" required>
+              <p class="field-error" id="staffError" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group" data-field="misc">
+              <label for="misc">Monthly Miscellaneous Expenses (Optional): <span>₹</span></label>
+              <input id="misc" name="misc" inputmode="numeric" autocomplete="off" aria-describedby="miscError">
+              <p class="field-error" id="miscError" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group" data-field="fee">
+              <label for="fee">Training Fee*: <span>₹</span></label>
+              <input id="fee" name="fee" inputmode="numeric" autocomplete="off" placeholder="Industry Standard Fee: 35,000" aria-describedby="feeError feeNotice" required>
+              <p class="field-error" id="feeError" aria-live="polite"></p>
+              <p class="field-notice" id="feeNotice" aria-live="polite"></p>
+            </div>
+
+            <div class="field-group" data-field="candidates">
+              <label for="candidates">Number of Candidates*:</label>
+              <input id="candidates" name="candidates" inputmode="numeric" autocomplete="off" aria-describedby="candidatesError candidatesNotice" required>
+              <p class="field-error" id="candidatesError" aria-live="polite"></p>
+              <p class="field-notice" id="candidatesNotice" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <label class="hidden-cost-toggle" for="includeHiddenOperationalCost">
+            <input id="includeHiddenOperationalCost" type="checkbox" checked>
+            <span class="hidden-cost-note included" id="hiddenCostNote">
+              An additional ₹30,000 has been allocated to the monthly RPTO operational expenses to cover hidden operational costs, including maintenance agreements, insurance, drone equipment and spare parts, battery replacement upon completion of lifecycle usage, and other servicing and upkeep expenses.
+            </span>
+          </label>
+
+          <button class="calculate-button" type="submit">Calculate Profitability</button>
+
+          <div class="result-area" id="resultArea" hidden aria-live="polite">
+            <div class="result-card" id="resultCard">
+              <strong id="resultText"></strong>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="calculator-footer">
+      <span>DronoBharat</span>
+      <span>RPTO financial planning and DGCA compliance consultancy</span>
+    </footer>
+
+    <script src="profitability-calculator.js?v=14"></script>
+  </body>
+</html>
